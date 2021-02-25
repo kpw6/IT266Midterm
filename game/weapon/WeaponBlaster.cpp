@@ -6,12 +6,12 @@
 
 #define BLASTER_SPARM_CHARGEGLOW		6
 
-class rvWeaponBlaster : public rvWeapon {
+class rvAttackEmber : public rvWeapon {
 public:
 
-	CLASS_PROTOTYPE( rvWeaponBlaster );
+	CLASS_PROTOTYPE(rvAttackEmber);
 
-	rvWeaponBlaster ( void );
+	rvAttackEmber(void);
 
 	virtual void		Spawn				( void );
 	void				Save				( idSaveGame *savefile ) const;
@@ -41,10 +41,10 @@ private:
 	stateResult_t		State_Fire				( const stateParms_t& parms );
 	stateResult_t		State_Flashlight		( const stateParms_t& parms );
 	
-	CLASS_STATES_PROTOTYPE ( rvWeaponBlaster );
+	CLASS_STATES_PROTOTYPE(rvAttackEmber);
 };
 
-CLASS_DECLARATION( rvWeapon, rvWeaponBlaster )
+CLASS_DECLARATION(rvWeapon, rvAttackEmber)
 END_CLASS
 
 /*
@@ -52,15 +52,15 @@ END_CLASS
 rvWeaponBlaster::rvWeaponBlaster
 ================
 */
-rvWeaponBlaster::rvWeaponBlaster ( void ) {
+rvAttackEmber::rvAttackEmber(void) {
 }
 
 /*
 ================
-rvWeaponBlaster::UpdateFlashlight
+rvAttackEmber::UpdateFlashlight
 ================
 */
-bool rvWeaponBlaster::UpdateFlashlight ( void ) {
+bool rvAttackEmber::UpdateFlashlight(void) {
 	if ( !wsfl.flashlight ) {
 		return false;
 	}
@@ -71,10 +71,10 @@ bool rvWeaponBlaster::UpdateFlashlight ( void ) {
 
 /*
 ================
-rvWeaponBlaster::Flashlight
+rvAttackEmber::Flashlight
 ================
 */
-void rvWeaponBlaster::Flashlight ( bool on ) {
+void rvAttackEmber::Flashlight ( bool on ) {
 	owner->Flashlight ( on );
 	
 	if ( on ) {
@@ -88,10 +88,10 @@ void rvWeaponBlaster::Flashlight ( bool on ) {
 
 /*
 ================
-rvWeaponBlaster::UpdateAttack
+rvAttackEmber::UpdateAttack
 ================
 */
-bool rvWeaponBlaster::UpdateAttack ( void ) {
+bool rvAttackEmber::UpdateAttack ( void ) {
 	// Clear fire forced
 	if ( fireForced ) {
 		if ( !wsfl.attack ) {
@@ -142,10 +142,10 @@ bool rvWeaponBlaster::UpdateAttack ( void ) {
 
 /*
 ================
-rvWeaponBlaster::Spawn
+rvAttackEmber::Spawn
 ================
 */
-void rvWeaponBlaster::Spawn ( void ) {
+void rvAttackEmber::Spawn ( void ) {
 	viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, 0 );
 	SetState ( "Raise", 0 );
 	
@@ -161,10 +161,10 @@ void rvWeaponBlaster::Spawn ( void ) {
 
 /*
 ================
-rvWeaponBlaster::Save
+rvAttackEmber::Save
 ================
 */
-void rvWeaponBlaster::Save ( idSaveGame *savefile ) const {
+void rvAttackEmber::Save ( idSaveGame *savefile ) const {
 	savefile->WriteInt ( chargeTime );
 	savefile->WriteInt ( chargeDelay );
 	savefile->WriteVec2 ( chargeGlow );
@@ -174,10 +174,10 @@ void rvWeaponBlaster::Save ( idSaveGame *savefile ) const {
 
 /*
 ================
-rvWeaponBlaster::Restore
+rvAttackEmber::Restore
 ================
 */
-void rvWeaponBlaster::Restore ( idRestoreGame *savefile ) {
+void rvAttackEmber::Restore(idRestoreGame *savefile) {
 	savefile->ReadInt ( chargeTime );
 	savefile->ReadInt ( chargeDelay );
 	savefile->ReadVec2 ( chargeGlow );
@@ -187,10 +187,10 @@ void rvWeaponBlaster::Restore ( idRestoreGame *savefile ) {
 
 /*
 ================
-rvWeaponBlaster::PreSave
+rvAttackEmber::PreSave
 ================
 */
-void rvWeaponBlaster::PreSave ( void ) {
+void rvAttackEmber::PreSave(void) {
 
 	SetState ( "Idle", 4 );
 
@@ -203,10 +203,10 @@ void rvWeaponBlaster::PreSave ( void ) {
 
 /*
 ================
-rvWeaponBlaster::PostSave
+rvAttackEmber::PostSave
 ================
 */
-void rvWeaponBlaster::PostSave ( void ) {
+void rvAttackEmber::PostSave(void) {
 }
 
 /*
@@ -217,22 +217,22 @@ void rvWeaponBlaster::PostSave ( void ) {
 ===============================================================================
 */
 
-CLASS_STATES_DECLARATION ( rvWeaponBlaster )
-	STATE ( "Raise",						rvWeaponBlaster::State_Raise )
-	STATE ( "Lower",						rvWeaponBlaster::State_Lower )
-	STATE ( "Idle",							rvWeaponBlaster::State_Idle)
-	STATE ( "Charge",						rvWeaponBlaster::State_Charge )
-	STATE ( "Charged",						rvWeaponBlaster::State_Charged )
-	STATE ( "Fire",							rvWeaponBlaster::State_Fire )
-	STATE ( "Flashlight",					rvWeaponBlaster::State_Flashlight )
+CLASS_STATES_DECLARATION(rvAttackEmber)
+	STATE ( "Raise",						rvAttackEmber::State_Raise )
+	STATE ( "Lower",						rvAttackEmber::State_Lower )
+	STATE ( "Idle",							rvAttackEmber::State_Idle)
+	STATE ( "Charge",						rvAttackEmber::State_Charge )
+	STATE ( "Charged",						rvAttackEmber::State_Charged )
+	STATE ( "Fire",							rvAttackEmber::State_Fire )
+	STATE ( "Flashlight",					rvAttackEmber::State_Flashlight )
 END_CLASS_STATES
 
 /*
 ================
-rvWeaponBlaster::State_Raise
+rvAttackEmber::State_Raise
 ================
 */
-stateResult_t rvWeaponBlaster::State_Raise( const stateParms_t& parms ) {
+stateResult_t rvAttackEmber::State_Raise(const stateParms_t& parms) {
 	enum {
 		RAISE_INIT,
 		RAISE_WAIT,
@@ -259,10 +259,10 @@ stateResult_t rvWeaponBlaster::State_Raise( const stateParms_t& parms ) {
 
 /*
 ================
-rvWeaponBlaster::State_Lower
+rvAttackEmber::State_Lower
 ================
 */
-stateResult_t rvWeaponBlaster::State_Lower ( const stateParms_t& parms ) {
+stateResult_t rvAttackEmber::State_Lower(const stateParms_t& parms) {
 	enum {
 		LOWER_INIT,
 		LOWER_WAIT,
@@ -293,10 +293,10 @@ stateResult_t rvWeaponBlaster::State_Lower ( const stateParms_t& parms ) {
 
 /*
 ================
-rvWeaponBlaster::State_Idle
+rvAttackEmber::State_Idle
 ================
 */
-stateResult_t rvWeaponBlaster::State_Idle ( const stateParms_t& parms ) {	
+stateResult_t rvAttackEmber::State_Idle(const stateParms_t& parms) {
 	enum {
 		IDLE_INIT,
 		IDLE_WAIT,
@@ -326,10 +326,10 @@ stateResult_t rvWeaponBlaster::State_Idle ( const stateParms_t& parms ) {
 
 /*
 ================
-rvWeaponBlaster::State_Charge
+rvAttackEmber::State_Charge
 ================
 */
-stateResult_t rvWeaponBlaster::State_Charge ( const stateParms_t& parms ) {
+stateResult_t rvAttackEmber::State_Charge(const stateParms_t& parms) {
 	enum {
 		CHARGE_INIT,
 		CHARGE_WAIT,
@@ -364,10 +364,10 @@ stateResult_t rvWeaponBlaster::State_Charge ( const stateParms_t& parms ) {
 
 /*
 ================
-rvWeaponBlaster::State_Charged
+rvAttackEmber::State_Charged
 ================
 */
-stateResult_t rvWeaponBlaster::State_Charged ( const stateParms_t& parms ) {
+stateResult_t rvAttackEmber::State_Charged(const stateParms_t& parms) {
 	enum {
 		CHARGED_INIT,
 		CHARGED_WAIT,
@@ -394,10 +394,10 @@ stateResult_t rvWeaponBlaster::State_Charged ( const stateParms_t& parms ) {
 
 /*
 ================
-rvWeaponBlaster::State_Fire
+rvAttackEmber::State_Fire
 ================
 */
-stateResult_t rvWeaponBlaster::State_Fire ( const stateParms_t& parms ) {
+stateResult_t rvAttackEmber::State_Fire(const stateParms_t& parms) {
 	enum {
 		FIRE_INIT,
 		FIRE_WAIT,
@@ -454,10 +454,10 @@ stateResult_t rvWeaponBlaster::State_Fire ( const stateParms_t& parms ) {
 
 /*
 ================
-rvWeaponBlaster::State_Flashlight
+rvAttackEmber::State_Flashlight
 ================
 */
-stateResult_t rvWeaponBlaster::State_Flashlight ( const stateParms_t& parms ) {
+stateResult_t rvAttackEmber::State_Flashlight(const stateParms_t& parms) {
 	enum {
 		FLASHLIGHT_INIT,
 		FLASHLIGHT_WAIT,
