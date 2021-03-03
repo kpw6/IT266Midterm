@@ -405,6 +405,9 @@ rvMonsterBerserker::State_Killed
 ================
 */
 stateResult_t rvMonsterBerserker::State_Killed	( const stateParms_t& parms ) {
+	/*if random number == 20
+	monster joins team
+	*/
 	StopEffect ( "fx_charge_up" );
 	StopEffect ( "fx_ambient_electricity" );
 	StopEffect ( "fx_ambient_electricity_mace" );

@@ -302,7 +302,7 @@ void rvAIManager::AddTeammate ( idActor* actor ) {
 	// If its already in a team least then ignore the call.
 	// NOTE: You have to call removeteammate before addteammate to switch the
 	//       actor from one team to another
-	if ( actor->teamNode.InList ( ) ) {
+	if ( actor->teamNode.InList ()) {
 		return;
 	}
 	actor->teamNode.AddToEnd ( teams[actor->team] );
@@ -765,3 +765,8 @@ void rvAIManager::DebugDrawHelpers ( void ) {
 		helper->DrawDebugEntityInfo ( );
 	}
 }
+/*
+================
+rvAIManager::DebugDrawHelpers
+================
+*/

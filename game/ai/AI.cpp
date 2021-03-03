@@ -1609,152 +1609,160 @@ bool idAI::Pain( idEntity *inflictor, idEntity *attacker, int damage, const idVe
 idAI::Killed
 =====================
 */
-void idAI::Killed( idEntity *inflictor, idEntity *attacker, int damage, const idVec3 &dir, int location ) {
+void idAI::Killed(idEntity *inflictor, idEntity *attacker, int damage, const idVec3 &dir, int location) {
 	idAngles			ang;
 	const char*			modelDeath;
 	const idKeyValue*	kv;
-	
-	if ( g_debugDamage.GetBool() ) {
-		gameLocal.Printf( "Damage: joint: '%s', zone '%s'\n", animator.GetJointName( ( jointHandle_t )location ), 
-			GetDamageGroup( location ) );
+	if (gameLocal.random.RandomInt(3) == 2) {
+		gameLocal.Printf("Teammate added\n");
+		aiManager.RemoveTeammate(this);
+		aiManager.AddTeammate(this);
 	}
-
-	if ( aifl.dead ) {
-		aifl.pain = true;
-		aifl.damage = true;
-		return;
-	}
-
-	aifl.dead = true;
-
-	// turn off my flashlight, if I had one
-	ProcessEvent( &AI_Flashlight, false );
-
-	// Detach from any spawners
-	if( GetSpawner() ) {
-		GetSpawner()->Detach( this );
-		SetSpawner( NULL );
-	}
-
-	// Hide surfaces on death
-	for ( kv = spawnArgs.MatchPrefix ( "deathhidesurface", NULL );
-		  kv;
-		  kv = spawnArgs.MatchPrefix ( "deathhidesurface", kv ) ) {
-		HideSurface ( kv->GetValue() );
-	}
-
-	// stop all voice sounds 
-	StopSpeaking( true );
-
-	SetMoveType ( MOVETYPE_DEAD );
-
-	move.fl.noGravity = false;
-	move.fl.allowPushMovables = false;
-	aifl.scripted = false;
-
-	physicsObj.UseFlyMove( false );
-	physicsObj.ForceDeltaMove( false );
-
-	// end our looping ambient sound
-	StopSound( SND_CHANNEL_AMBIENT, false );
-
-	if ( attacker && attacker->IsType( idActor::GetClassType() ) ) {
-		gameLocal.AlertAI( ( idActor * )attacker );
-
-		aiManager.AnnounceKill ( this, attacker, inflictor );
-		aiManager.AnnounceDeath ( this, attacker );
-   	}
-
-	if ( attacker && attacker->IsType( idActor::GetClassType() ) ) {
-		gameLocal.AlertAI( ( idActor * )attacker );
-	}
-
-	// activate targets
-	ActivateTargets( this );
-
-	RemoveAttachments();
-	RemoveProjectile();
-	StopMove( MOVE_STATUS_DONE );
-
-	OnDeath();
-	CheckDeathObjectives();
-
-	ClearEnemy();
-
-	// make monster nonsolid
-	physicsObj.SetContents( 0 );
-	physicsObj.GetClipModel()->Unlink();
-
-	Unbind();
-	if ( g_perfTest_aiNoRagdoll.GetBool() ) {
-		if ( spawnArgs.MatchPrefix( "lipsync_death" ) ) {
-			Speak( "lipsync_death", true );
-		} else {
-			StartSound( "snd_death", SND_CHANNEL_VOICE, 0, false, NULL );
-		}
-		physicsObj.SetLinearVelocity( vec3_zero );
-		physicsObj.PutToRest();
-		physicsObj.DisableImpact();
-
-	} else if( fl.quickBurn ){
-		if ( spawnArgs.MatchPrefix( "lipsync_death" ) ) {
-			Speak( "lipsync_death", true );
-		} else {
-			StartSound( "snd_death", SND_CHANNEL_VOICE, 0, false, NULL );
+	else {
+		if (g_debugDamage.GetBool()) {
+			gameLocal.Printf("Damage: joint: '%s', zone '%s'\n", animator.GetJointName((jointHandle_t)location),
+				GetDamageGroup(location));
 		}
 
-		physicsObj.SetLinearVelocity( vec3_zero );
-		physicsObj.PutToRest();
-		physicsObj.DisableImpact();
+		if (aifl.dead) {
+			aifl.pain = true;
+			aifl.damage = true;
+			return;
+		}
 
-	} else {
-		if ( StartRagdoll() ) {
-			if ( spawnArgs.MatchPrefix( "lipsync_death" ) ) {
-				Speak( "lipsync_death", true );
-			} else {
-				StartSound( "snd_death", SND_CHANNEL_VOICE, 0, false, NULL );
+		aifl.dead = true;
+
+		// turn off my flashlight, if I had one
+		ProcessEvent(&AI_Flashlight, false);
+
+		// Detach from any spawners
+		if (GetSpawner()) {
+			GetSpawner()->Detach(this);
+			SetSpawner(NULL);
+		}
+
+		// Hide surfaces on death
+		for (kv = spawnArgs.MatchPrefix("deathhidesurface", NULL);
+			kv;
+			kv = spawnArgs.MatchPrefix("deathhidesurface", kv)) {
+			HideSurface(kv->GetValue());
+		}
+
+		// stop all voice sounds 
+		StopSpeaking(true);
+
+		SetMoveType(MOVETYPE_DEAD);
+
+		move.fl.noGravity = false;
+		move.fl.allowPushMovables = false;
+		aifl.scripted = false;
+
+		physicsObj.UseFlyMove(false);
+		physicsObj.ForceDeltaMove(false);
+
+		// end our looping ambient sound
+		StopSound(SND_CHANNEL_AMBIENT, false);
+
+		if (attacker && attacker->IsType(idActor::GetClassType())) {
+			gameLocal.AlertAI((idActor *)attacker);
+
+			aiManager.AnnounceKill(this, attacker, inflictor);
+			aiManager.AnnounceDeath(this, attacker);
+		}
+
+		if (attacker && attacker->IsType(idActor::GetClassType())) {
+			gameLocal.AlertAI((idActor *)attacker);
+		}
+
+		// activate targets
+		ActivateTargets(this);
+
+		RemoveAttachments();
+		RemoveProjectile();
+		StopMove(MOVE_STATUS_DONE);
+
+		OnDeath();
+		CheckDeathObjectives();
+		ClearEnemy();
+		// make monster nonsolid
+		physicsObj.SetContents(0);
+		physicsObj.GetClipModel()->Unlink();
+
+		Unbind();
+		if (g_perfTest_aiNoRagdoll.GetBool()) {
+			if (spawnArgs.MatchPrefix("lipsync_death")) {
+				Speak("lipsync_death", true);
 			}
-		}
-
-		if ( spawnArgs.GetString( "model_death", "", &modelDeath ) ) {
-			// lost soul is only case that does not use a ragdoll and has a model_death so get the death sound in here
-			if ( spawnArgs.MatchPrefix( "lipsync_death" ) ) {
-				Speak( "lipsync_death", true );
-			} else {
-				StartSound( "snd_death", SND_CHANNEL_VOICE, 0, false, NULL );
+			else {
+				StartSound("snd_death", SND_CHANNEL_VOICE, 0, false, NULL);
 			}
-			renderEntity.shaderParms[ SHADERPARM_TIMEOFFSET ] = -MS2SEC( gameLocal.time );
-			SetModel( modelDeath );
-			physicsObj.SetLinearVelocity( vec3_zero );
+			physicsObj.SetLinearVelocity(vec3_zero);
 			physicsObj.PutToRest();
 			physicsObj.DisableImpact();
+
 		}
-	}
+		else if (fl.quickBurn){
+			if (spawnArgs.MatchPrefix("lipsync_death")) {
+				Speak("lipsync_death", true);
+			}
+			else {
+				StartSound("snd_death", SND_CHANNEL_VOICE, 0, false, NULL);
+			}
 
-	SetState ( "State_Killed" );
+			physicsObj.SetLinearVelocity(vec3_zero);
+			physicsObj.PutToRest();
+			physicsObj.DisableImpact();
 
-	kv = spawnArgs.MatchPrefix( "def_drops", NULL );
-	while( kv ) {
-		idDict args;
-		idEntity *tEnt;
-		if( kv->GetValue() != "" ){
-			args.Set( "classname", kv->GetValue() );
-			args.Set( "origin", physicsObj.GetAbsBounds().GetCenter().ToString() );
-			// Let items know that they are of the dropped variety
-			args.Set( "dropped", "1" );
-			if (gameLocal.SpawnEntityDef( args, &tEnt )) {
-				if ( tEnt && tEnt->GetPhysics()) { //tEnt *should* be valid, but hey...
-					// magic/arbitrary number to give it some spin.  Some constants used to ensure guns rarely fall standing up
-					tEnt->GetPhysics()->SetAngularVelocity( idVec3( (gameLocal.random.RandomFloat() * 10.0f) + 20.0f,
-																	(gameLocal.random.RandomFloat() * 10.0f) + 20.0f,
-																	(gameLocal.random.RandomFloat() * 10.0f) + 20.0f));
+		}
+		else {
+			if (StartRagdoll()) {
+				if (spawnArgs.MatchPrefix("lipsync_death")) {
+					Speak("lipsync_death", true);
+				}
+				else {
+					StartSound("snd_death", SND_CHANNEL_VOICE, 0, false, NULL);
 				}
 			}
+
+			if (spawnArgs.GetString("model_death", "", &modelDeath)) {
+				// lost soul is only case that does not use a ragdoll and has a model_death so get the death sound in here
+				if (spawnArgs.MatchPrefix("lipsync_death")) {
+					Speak("lipsync_death", true);
+				}
+				else {
+					StartSound("snd_death", SND_CHANNEL_VOICE, 0, false, NULL);
+				}
+				renderEntity.shaderParms[SHADERPARM_TIMEOFFSET] = -MS2SEC(gameLocal.time);
+				SetModel(modelDeath);
+				physicsObj.SetLinearVelocity(vec3_zero);
+				physicsObj.PutToRest();
+				physicsObj.DisableImpact();
+			}
 		}
-		kv = spawnArgs.MatchPrefix( "def_drops", kv );
+		SetState("State_Killed");
+
+		kv = spawnArgs.MatchPrefix("def_drops", NULL);
+		while (kv) {
+			idDict args;
+			idEntity *tEnt;
+			if (kv->GetValue() != ""){
+				args.Set("classname", kv->GetValue());
+				args.Set("origin", physicsObj.GetAbsBounds().GetCenter().ToString());
+				// Let items know that they are of the dropped variety
+				args.Set("dropped", "1");
+				if (gameLocal.SpawnEntityDef(args, &tEnt)) {
+					if (tEnt && tEnt->GetPhysics()) { //tEnt *should* be valid, but hey...
+						// magic/arbitrary number to give it some spin.  Some constants used to ensure guns rarely fall standing up
+						tEnt->GetPhysics()->SetAngularVelocity(idVec3((gameLocal.random.RandomFloat() * 10.0f) + 20.0f,
+							(gameLocal.random.RandomFloat() * 10.0f) + 20.0f,
+							(gameLocal.random.RandomFloat() * 10.0f) + 20.0f));
+					}
+				}
+			}
+			kv = spawnArgs.MatchPrefix("def_drops", kv);
+		}
 	}
 }
-
 /***********************************************************************
 
 	Targeting/Combat
@@ -3679,10 +3687,9 @@ void idAI::OnDeath( void ){
 		// Fixme!  Is this safe to do immediately?
 		vehicleController.Eject();
 	}
-
-	aiManager.RemoveTeammate ( this );
-
-	ExecScriptFunction( funcs.death );
+	aiManager.RemoveTeammate(this);
+	ExecScriptFunction(funcs.death);
+	
 
 /* DONT DROP ANYTHING FOR NOW
 	float rVal = gameLocal.random.RandomInt( 100 );

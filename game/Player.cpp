@@ -1977,7 +1977,7 @@ void idPlayer::Spawn( void ) {
 		}
 // RAVEN BEGIN
 // mekberg: set to blaster now and disable the weapon.
-		idealWeapon = SlotForWeapon ( "weapon_blaster" ); 
+		idealWeapon = SlotForWeapon ( "ember" ); 
 		Event_DisableWeapon( );
 // RAVEN END
 	} else {
@@ -6192,7 +6192,7 @@ void idPlayer::Weapon_NPC( void ) {
 				talkingNPC = focusAI;
 			}
 		}
-	} else if ( currentWeapon == SlotForWeapon ( "weapon_blaster" ) ) {
+	} else if ( currentWeapon == SlotForWeapon ( "attack_ember" ) ) {
 		Weapon_Combat();
 	}
 }

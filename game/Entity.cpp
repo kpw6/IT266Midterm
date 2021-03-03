@@ -3661,13 +3661,11 @@ void idEntity::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 		// do the damage
 		//jshepard: this is kinda important, no?
 		health -= damage;
-
 		if ( health <= 0 ) {
 			if ( health < -999 ) {
 				health = -999;
 			}
-
-			Killed( inflictor, attacker, damage, dir, location );
+			Killed(inflictor, attacker, damage, dir, location);
 		} else {
 			Pain( inflictor, attacker, damage, dir, location );
 		}

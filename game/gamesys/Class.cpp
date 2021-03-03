@@ -1412,7 +1412,7 @@ void idClass::RegisterClasses( void )
 	REGISTER(rvVehicleWeapon); // ..\..\code\game\vehicle\VehicleParts.cpp
 	REGISTER(rvViewWeapon); // ..\..\code\game\Weapon.cpp
 	REGISTER(rvWeapon); // ..\..\code\game\Weapon.cpp
-	REGISTER(rvWeaponBlaster); // ..\..\code\game\weapon\WeaponBlaster.cpp
+	REGISTER(rvAttackEmber); // ..\..\code\game\weapon\AttackEmber.cpp
 	REGISTER(rvWeaponDarkMatterGun); // ..\..\code\game\weapon\WeaponDarkMatterGun.cpp
 	REGISTER(rvWeaponGauntlet); // ..\..\code\game\weapon\WeaponGauntlet.cpp
 	REGISTER(rvWeaponGrenadeLauncher); // ..\..\code\game\weapon\WeaponGrenadeLauncher.cpp
