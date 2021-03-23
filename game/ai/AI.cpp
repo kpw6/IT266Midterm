@@ -127,7 +127,6 @@ idAI::idAI ( void ) {
 	destLookAng.Zero();
 	lookMin.Zero();
 	lookMax.Zero();
-
 	eyeMin.Zero();
 	eyeMax.Zero();
 	
@@ -1617,6 +1616,8 @@ void idAI::Killed(idEntity *inflictor, idEntity *attacker, int damage, const idV
 		gameLocal.Printf("Teammate added\n");
 		aiManager.RemoveTeammate(this);
 		aiManager.AddTeammate(this);
+		health = 100;
+		
 	}
 	else {
 		if (g_debugDamage.GetBool()) {

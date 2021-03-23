@@ -566,6 +566,7 @@ idMover::Killed
 void idMover::Killed( idEntity *inflictor, idEntity *attacker, int damage, const idVec3 &dir, int location ) {
 	fl.takedamage = false;
 	ActivateTargets( this );
+	gameLocal.Printf("Goodbye there\n");
 }
 
 
