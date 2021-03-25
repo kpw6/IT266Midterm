@@ -15,7 +15,7 @@ Changelog:
 	- Shotgun -> Power Gem
 	
 - Added Items
-	- Oran Berry <- Can be used through command (give item_oran_berry)
-	- Sitrus Berry <- Can be used through command (give item_sitrus_berry)
+	- Oran Berry (restores 10hp) <- Can be used through command (give item_oran_berry)
+	- Sitrus Berry (restores 20hp) <- Can be used through command (give item_sitrus_berry)
 	
 - Grenadelauncher(Draco Meteor) Now launches multiple grenades(meteors)
