@@ -1614,9 +1614,7 @@ void idAI::Killed(idEntity *inflictor, idEntity *attacker, int damage, const idV
 	const idKeyValue*	kv;
 	if (gameLocal.random.RandomInt(3) == 2) {
 		gameLocal.Printf("Teammate added\n");
-		aiManager.RemoveTeammate(this);
-		aiManager.AddTeammate(this);
-		health = 100;
+		SetState("State_Join_Team");
 		
 	}
 	else {

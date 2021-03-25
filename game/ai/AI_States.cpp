@@ -82,6 +82,8 @@ CLASS_STATES_DECLARATION ( idAI )
 	// Head States
 	STATE ( "Head_Idle",					idAI::State_Head_Idle )
 
+	STATE(  "State_Join_Team",              idAI::State_Join_Team)
+
 END_CLASS_STATES
 
 /*
@@ -2210,4 +2212,16 @@ stateResult_t idAI::State_Wait_ScriptedDone ( const stateParms_t& parms ) {
 		return SRESULT_WAIT;
 	}
 	return SRESULT_DONE;
+}
+
+/*
+================
+idAI::State_Join_Team
+
+Monster joins team.
+================
+*/
+
+stateResult_t idAI::State_Killed(const stateParms_t& parms) {
+
 }

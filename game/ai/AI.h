@@ -1233,6 +1233,8 @@ protected:
 	// Head states	
 	stateResult_t			State_Head_Idle						( const stateParms_t& parms );
 
+	stateResult_t			State_Join_Team                     (const stateParms_t& parms);
+
 	CLASS_STATES_PROTOTYPE ( idAI );
 };
 
